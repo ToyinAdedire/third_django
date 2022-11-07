@@ -1,10 +1,12 @@
+from django.db import router
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import PostViewSet
+from .views import SongViewSet
 
 router = DefaultRouter()
-router.register(r'posts', PostViewSet, basename = 'posts')
+router.register('songs', SongViewSet, basename = 'songs')
 
-urlspatterns = [] + router.urls
-
-#  127.0.0.1:8007/posts
+urlspatterns = [
+    path('songs', SongViewSet.as_view({'get': 'list'}), name='song-list'),
+    path('song/<int:pk>', SongViewSet.as_view({'get':'retrieve', 'patch':'update', 'delete': 'destroy'}), name='song-detail')
+]
